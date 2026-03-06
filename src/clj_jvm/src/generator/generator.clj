@@ -134,7 +134,8 @@
      :table [["connect" :cmds '[datomic.client.api/connect]]
              ["create" :cmds '[datomic.client.api/create-database]]
              ["delete" :cmds '[datomic.client.api/delete-database]]
-             ["list" :cmds '[datomic.client.api/list-databases]]]]
+             ["list" :cmds '[datomic.client.api/list-databases]]
+             ["administer-system" :cmds '[datomic.client.api/administer-system]]]]
     [:box "green"
      :section "Database Value"
      :table [["current" :cmds '[datomic.client.api/db]]
@@ -155,16 +156,16 @@
     :column
     [:box "orange"
      :section "Querying"
-     :subsection "Datalog"
-     :table [["" :cmds '[datomic.client.api/q datomic.client.api/qseq]]]
-     :subsection "Pull"
-     :table [["" :cmds '[datomic.client.api/pull]]]
-     :subsection "Raw Index"
-     :table [["" :cmds '[datomic.client.api/datoms]]
-             ["" :cmds '[datomic.client.api/index-range datomic.client.api/index-pull]]]]
-    [:box "grey"
-     :section "System"
-     :table [["" :cmds '[datomic.client.api/administer-system]]]]]])
+     :table [["Datalog" :cmds '[datomic.client.api/q datomic.client.api/qseq]]
+             ["Indexes" :cmds '[datomic.client.api/index-pull datomic.client.api/index-range datomic.client.api/datoms]]
+             ["Pull" :cmds '[datomic.client.api/pull]]]
+     ;; :subsection "Datalog"
+     ;; :table [["" :cmds '[datomic.client.api/q datomic.client.api/qseq]]]
+     ;; :subsection "Pull"
+     ;; :table [["" :cmds '[datomic.client.api/pull]]]
+     ;; :subsection "Indexes"
+     ;;:table [["Indexes" :cmds '[datomic.client.api/index-pull datomic.client.api/index-range datomic.client.api/datoms]]]
+     ]]])
 
 (def async-cheatsheet-structure
   [:title {:html "Datomic Async Client API Cheat Sheet"
@@ -256,14 +257,14 @@
            tx-report-queue with])))
 
 (defn- datomic-client-symbol-url-pairs []
-  (let [base "https://docs.datomic.com/client-api/datomic.client.api.html#datomic.client.api/"]
+  (let [base "https://docs.datomic.com/client-api/datomic.client.api.html#var-"]
     (map (fn [fname] [(str "datomic.client.api/" fname) (str base fname)])
          '[administer-system as-of client connect create-database datoms db
            db-stats delete-database history index-pull index-range list-databases
            pull q qseq since sync transact tx-range with with-db])))
 
 (defn- datomic-async-symbol-url-pairs []
-  (let [base "https://docs.datomic.com/client-api/datomic.client.api.async.html#datomic.client.api.async/"]
+  (let [base "https://docs.datomic.com/client-api/datomic.client.api.async.html#var-"]
     (map (fn [fname] [(str "datomic.client.api.async/" fname) (str base fname)])
          '[administer-system as-of client connect create-database datoms db
            db-stats delete-database history index-pull index-range list-databases
