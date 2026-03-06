@@ -103,12 +103,92 @@
 (def client-cheatsheet-structure
   [:title {:html "Datomic Client API Cheat Sheet"
            :latex "Datomic Client API Cheat Sheet (\\texttt{datomic.client.api})"}
-   :page [:column :column]])
+   :page
+   [:column
+    [:box "green"
+     :section "Client & Connection"
+     :subsection "Client"
+     :table [["" :cmds '[datomic.client.api/client]]]
+     :subsection "Databases"
+     :table [["connect" :cmds '[datomic.client.api/connect]]
+             ["create" :cmds '[datomic.client.api/create-database]]
+             ["delete" :cmds '[datomic.client.api/delete-database]]
+             ["list" :cmds '[datomic.client.api/list-databases]]]]
+    [:box "green"
+     :section "Database Value"
+     :table [["current" :cmds '[datomic.client.api/db]]
+             ["as-of" :cmds '[datomic.client.api/as-of]]
+             ["since" :cmds '[datomic.client.api/since]]
+             ["history" :cmds '[datomic.client.api/history]]
+             ["with-db" :cmds '[datomic.client.api/with-db]]
+             ["stats" :cmds '[datomic.client.api/db-stats]]
+             ["sync" :cmds '[datomic.client.api/sync]]]]
+    [:box "blue"
+     :section "Transactions"
+     :subsection "Submit"
+     :table [["" :cmds '[datomic.client.api/transact]]]
+     :subsection "Speculative"
+     :table [["" :cmds '[datomic.client.api/with]]]
+     :subsection "Transaction Log"
+     :table [["" :cmds '[datomic.client.api/tx-range]]]]
+    :column
+    [:box "orange"
+     :section "Querying"
+     :subsection "Datalog"
+     :table [["" :cmds '[datomic.client.api/q datomic.client.api/qseq]]]
+     :subsection "Pull"
+     :table [["" :cmds '[datomic.client.api/pull]]]
+     :subsection "Raw Index"
+     :table [["" :cmds '[datomic.client.api/datoms]]
+             ["" :cmds '[datomic.client.api/index-range datomic.client.api/index-pull]]]]
+    [:box "grey"
+     :section "System"
+     :table [["" :cmds '[datomic.client.api/administer-system]]]]]])
 
 (def async-cheatsheet-structure
   [:title {:html "Datomic Async Client API Cheat Sheet"
            :latex "Datomic Async Client API Cheat Sheet (\\texttt{datomic.client.api.async})"}
-   :page [:column :column]])
+   :page
+   [:column
+    [:box "green"
+     :section "Client & Connection"
+     :subsection "Client"
+     :table [["" :cmds '[datomic.client.api.async/client]]]
+     :subsection "Databases"
+     :table [["connect" :cmds '[datomic.client.api.async/connect]]
+             ["create" :cmds '[datomic.client.api.async/create-database]]
+             ["delete" :cmds '[datomic.client.api.async/delete-database]]
+             ["list" :cmds '[datomic.client.api.async/list-databases]]]]
+    [:box "green"
+     :section "Database Value"
+     :table [["current" :cmds '[datomic.client.api.async/db]]
+             ["as-of" :cmds '[datomic.client.api.async/as-of]]
+             ["since" :cmds '[datomic.client.api.async/since]]
+             ["history" :cmds '[datomic.client.api.async/history]]
+             ["with-db" :cmds '[datomic.client.api.async/with-db]]
+             ["stats" :cmds '[datomic.client.api.async/db-stats]]
+             ["sync" :cmds '[datomic.client.api.async/sync]]]]
+    [:box "blue"
+     :section "Transactions"
+     :subsection "Submit"
+     :table [["" :cmds '[datomic.client.api.async/transact]]]
+     :subsection "Speculative"
+     :table [["" :cmds '[datomic.client.api.async/with]]]
+     :subsection "Transaction Log"
+     :table [["" :cmds '[datomic.client.api.async/tx-range]]]]
+    :column
+    [:box "orange"
+     :section "Querying"
+     :subsection "Datalog"
+     :table [["" :cmds '[datomic.client.api.async/q datomic.client.api.async/qseq]]]
+     :subsection "Pull"
+     :table [["" :cmds '[datomic.client.api.async/pull]]]
+     :subsection "Raw Index"
+     :table [["" :cmds '[datomic.client.api.async/datoms]]
+             ["" :cmds '[datomic.client.api.async/index-range datomic.client.api.async/index-pull]]]]
+    [:box "grey"
+     :section "System"
+     :table [["" :cmds '[datomic.client.api.async/administer-system]]]]]])
 
 (def local-cheatsheet-structure
   [:title {:html "Datomic Local & Monitoring Reference"
