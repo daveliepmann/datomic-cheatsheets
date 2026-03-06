@@ -191,9 +191,31 @@
      :table [["" :cmds '[datomic.client.api.async/administer-system]]]]]])
 
 (def local-cheatsheet-structure
-  [:title {:html "Datomic Local & Monitoring Reference"
-           :latex "Datomic Local \\& Monitoring Reference (\\texttt{datomic.local})"}
-   :page [:column :column]])
+  [:title {:html "Datomic Local &amp; Monitoring Reference"
+           :latex "Datomic Local \\& Monitoring Reference"}
+   :page
+   [:column
+    [:box "green2"
+     :section "datomic.local"
+     :table [["divert" :cmds '[datomic.local/divert-system]]
+             ["release" :cmds '[datomic.local/release-db]]
+             ["import" :cmds '[datomic.local/import-cloud]]]]
+    :column
+    [:box "grey"
+     :section "Monitoring"
+     :subsection "io-stats"
+     :table [["enable" :str {:html "<code>:io-context :your-op</code> key in <code>q</code>/<code>transact</code> arg-map"
+                             :latex "\\texttt{:io-context :your-op} key in \\texttt{q}/\\texttt{transact} arg-map"}]
+             ["returns" :str {:html "<code>:api</code> <code>:api-ms</code> <code>:reads</code> <code>:nested</code>"
+                              :latex "\\texttt{:api :api-ms :reads :nested}"}]]
+     :subsection "query-stats"
+     :table [["enable" :str {:html "<code>:query-stats true</code> key in query arg-map"
+                             :latex "\\texttt{:query-stats true} key in query arg-map"}]
+             ["returns" :str {:html "<code>:ret</code> <code>:query-stats</code> <code>:phases</code> <code>:clauses</code>"
+                              :latex "\\texttt{:ret :query-stats :phases :clauses}"}]]
+     :subsection "tx-stats"
+     :table [["returns" :str {:html "in transaction result: <code>:res-ct</code> <code>:comp-ct</code> <code>:dedup-ct</code> <code>:ucheck-ct</code>"
+                              :latex "in transaction result: \\texttt{:res-ct :comp-ct :dedup-ct :ucheck-ct}"}]]]]])
 
 ;; URL mapping — filled in Step 2
 (defn- datomic-peer-symbol-url-pairs []
