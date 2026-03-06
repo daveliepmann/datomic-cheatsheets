@@ -411,6 +411,7 @@
 <html lang=\"en\">
 <head>
   <meta charset=\"utf-8\">
+  <link rel=\"icon\" href=\"cheatsheet_files/favicon.ico\" type=\"image/x-icon\">
 ")
 
 (defn inline-css [& {:keys [js?]}]
