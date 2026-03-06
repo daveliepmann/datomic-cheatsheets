@@ -19,7 +19,86 @@
 (def peer-cheatsheet-structure
   [:title {:html "Datomic Peer API Cheat Sheet"
            :latex "Datomic Peer API Cheat Sheet (\\texttt{datomic.api})"}
-   :page [:column :column]])
+   :page
+   [:column
+    [:box "green"
+     :section "Connection"
+     :table [["connect" :cmds '[datomic.api/connect]]
+             ["create" :cmds '[datomic.api/create-database datomic.api/delete-database]]
+             ["rename" :cmds '[datomic.api/rename-database]]
+             ["list" :cmds '[datomic.api/get-database-names]]
+             ["shutdown" :cmds '[datomic.api/shutdown]]]]
+    [:box "green"
+     :section "Database Value"
+     :table [["current" :cmds '[datomic.api/db]]
+             ["as-of" :cmds '[datomic.api/as-of datomic.api/as-of-t]]
+             ["since" :cmds '[datomic.api/since datomic.api/since-t]]
+             ["history" :cmds '[datomic.api/history]]
+             ["filter" :cmds '[datomic.api/filter datomic.api/is-filtered]]
+             ["basis" :cmds '[datomic.api/basis-t datomic.api/next-t]]
+             ["stats" :cmds '[datomic.api/db-stats]]]]
+    [:box "blue"
+     :section "Transactions"
+     :subsection "Submit"
+     :table [["sync" :cmds '[datomic.api/transact]]
+             ["async" :cmds '[datomic.api/transact-async]]
+             ["future" :cmds '[datomic.api/add-listener datomic.api/release datomic.api/cancel]]]
+     :subsection "Speculative"
+     :table [["" :cmds '[datomic.api/with]]]
+     :subsection "Temp IDs"
+     :table [["create" :cmds '[datomic.api/tempid]]
+             ["resolve" :cmds '[datomic.api/resolve-tempid]]]
+     :subsection "Time Conversion"
+     :table [["" :cmds '[datomic.api/t->tx datomic.api/tx->t]]]]
+    :column
+    [:box "orange"
+     :section "Querying"
+     :subsection "Datalog"
+     :table [["" :cmds '[datomic.api/q datomic.api/qseq datomic.api/query]]]
+     :subsection "Pull"
+     :table [["" :cmds '[datomic.api/pull datomic.api/pull-many]]]
+     :subsection "Raw Index"
+     :table [["" :cmds '[datomic.api/datoms datomic.api/seek-datoms]]
+             ["" :cmds '[datomic.api/index-range datomic.api/index-pull]]]]
+    [:box "yellow"
+     :section "Entity Operations"
+     :subsection "Entity"
+     :table [["" :cmds '[datomic.api/entity datomic.api/entity-db datomic.api/touch]]]
+     :subsection "Identity"
+     :table [["eid->kw" :cmds '[datomic.api/ident]]
+             ["kw->eid" :cmds '[datomic.api/entid datomic.api/entid-at]]
+             ["partition" :cmds '[datomic.api/part datomic.api/implicit-part
+                                  datomic.api/implicit-part-id]]]]
+    [:box "purple"
+     :section "Transaction Log"
+     :table [["" :cmds '[datomic.api/log datomic.api/tx-range]]]]]
+   :page
+   [:column
+    [:box "green2"
+     :section "Schema & Functions"
+     :subsection "Schema"
+     :table [["" :cmds '[datomic.api/attribute]]]
+     :subsection "Database Functions"
+     :table [["create" :cmds '[datomic.api/function]]
+             ["invoke" :cmds '[datomic.api/invoke]]]
+     :subsection "UUIDs"
+     :table [["create" :cmds '[datomic.api/squuid]]
+             ["timestamp" :cmds '[datomic.api/squuid-time-millis]]]]
+    [:box "grey"
+     :section "Sync & Coordination"
+     :subsection "Sync"
+     :table [["basis" :cmds '[datomic.api/sync]]
+             ["schema" :cmds '[datomic.api/sync-schema]]
+             ["index" :cmds '[datomic.api/sync-index]]
+             ["excise" :cmds '[datomic.api/sync-excise]]]
+     :subsection "Maintenance"
+     :table [["" :cmds '[datomic.api/request-index datomic.api/gc-storage]]]
+     :subsection "Notifications"
+     :table [["get" :cmds '[datomic.api/tx-report-queue]]
+             ["remove" :cmds '[datomic.api/remove-tx-report-queue]]]
+     :subsection "Admin"
+     :table [["" :cmds '[datomic.api/administer-system]]]]
+    :column]])
 
 (def client-cheatsheet-structure
   [:title {:html "Datomic Client API Cheat Sheet"
@@ -421,29 +500,10 @@ document.write('<style type=\"text/css\">%s<\\/style>')
 ;; it seems best to leave the namespace in there explicitly.
 
 (def +common-namespaces-to-remove-from-shown-symbols+
-  ["clojure.core.async/"
-   "clojure.data.avl/"
-   "clojure.data.int-map/"
-   "clojure.data.priority-map/"
-   "clojure.datafy/"
-   "clojure.edn/"
-   "clojure.java.browse/"
-   "clojure.java.io/"
-   "clojure.java.javadoc/"
-   "clojure.java.shell/"
-   "clojure.main/"
-   "clojure.math/"
-   "clojure.pprint/"
-   "clojure.repl/"
-   "clojure.set/"
-   "clojure.spec.alpha/"
-   "clojure.string/"
-   "clojure.tools.reader.edn/"
-   "clojure.walk/"
-   "clojure.zip/"
-   "flatland.ordered.map/"
-   "flatland.ordered.set/"
-   "flatland.useful.map/"])
+  ["datomic.api/"
+   "datomic.client.api/"
+   "datomic.client.api.async/"
+   "datomic.local/"])
 
 (defn remove-common-ns-prefix [s]
   (if-let [pre (first (filter #(str/starts-with? s %)
