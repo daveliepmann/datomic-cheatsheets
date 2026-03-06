@@ -15,7 +15,6 @@
     (apply printf-to-writer *out* fmt-str-or-writer args)
     (apply printf-to-writer fmt-str-or-writer args)))
 
-
 ;; Stub cheatsheet structures — content added in Steps 3-5
 (def peer-cheatsheet-structure
   [:title {:html "Datomic Peer API Cheat Sheet"
@@ -37,15 +36,53 @@
            :latex "Datomic Local \\& Monitoring Reference (\\texttt{datomic.local})"}
    :page [:column :column]])
 
-
 ;; URL mapping — filled in Step 2
-(defn symbol-url-pairs [_link-target-site _cheatsheet-type]
-  [])
+(defn- datomic-peer-symbol-url-pairs []
+  (let [base "https://docs.datomic.com/clojure/index.html#datomic.api/"]
+    (map (fn [fname] [(str "datomic.api/" fname) (str base fname)])
+         '[add-listener administer-system as-of as-of-t attribute basis-t
+           cancel connect create-database datoms db db-stats delete-database
+           entid entid-at entity entity-db filter function gc-storage
+           get-database-names history ident implicit-part implicit-part-id
+           index-pull index-range invoke is-filtered log next-t part pull
+           pull-many q qseq query release remove-tx-report-queue rename-database
+           request-index resolve-tempid seek-datoms shutdown since since-t
+           squuid squuid-time-millis sync sync-excise sync-index sync-schema
+           t->tx tempid touch transact transact-async tx->t tx-range
+           tx-report-queue with])))
+
+(defn- datomic-client-symbol-url-pairs []
+  (let [base "https://docs.datomic.com/client-api/datomic.client.api.html#datomic.client.api/"]
+    (map (fn [fname] [(str "datomic.client.api/" fname) (str base fname)])
+         '[administer-system as-of client connect create-database datoms db
+           db-stats delete-database history index-pull index-range list-databases
+           pull q qseq since sync transact tx-range with with-db])))
+
+(defn- datomic-async-symbol-url-pairs []
+  (let [base "https://docs.datomic.com/client-api/datomic.client.api.async.html#datomic.client.api.async/"]
+    (map (fn [fname] [(str "datomic.client.api.async/" fname) (str base fname)])
+         '[administer-system as-of client connect create-database datoms db
+           db-stats delete-database history index-pull index-range list-databases
+           pull q qseq since sync transact tx-range with with-db])))
+
+(defn- datomic-local-symbol-url-pairs []
+  ;; datomic.local has no per-function anchors in the docs
+  (let [base "https://docs.datomic.com/api/datomic-local.html"]
+    (map (fn [fname] [(str "datomic.local/" fname) base])
+         '[divert-system release-db import-cloud])))
+
+(defn symbol-url-pairs [link-target-site cheatsheet-type]
+  (if (= link-target-site :nolinks)
+    []
+    (case cheatsheet-type
+      :peer (datomic-peer-symbol-url-pairs)
+      :client (datomic-client-symbol-url-pairs)
+      :async (datomic-async-symbol-url-pairs)
+      :local (datomic-local-symbol-url-pairs))))
 
 (defn die [fmt-str & args]
   (apply iprintf *err* fmt-str args)
   (System/exit 1))
-
 
 (defn read-edn-safely [x & opts]
   (with-open [r (java.io.PushbackReader. (apply io/reader x opts))]
@@ -61,8 +98,6 @@
   [string]
   (some-> string str (URLEncoder/encode "UTF-8") (.replace "+" "%20")))
 
-
-
 ;; Use the following usepackage line if you want text with clickable
 ;; links in the PDF file to look no different from normal text:
 
@@ -74,9 +109,8 @@
 
 ;; \\usepackage[dvipdfm]{hyperref}
 
-
 (def latex-header-except-documentclass
-     "
+  "
 % Authors: Steve Tayon, Andy Fingerhut
 % Comments, errors, suggestions: Create an issue at
 % https://github.com/jafingerhut/clojure-cheatsheets
@@ -159,22 +193,19 @@
 (def latex-header-after-title "")
 
 (def latex-footer
-     "
+  "
 \\end{document}
 ")
 
-
 (def latex-a4-header-before-title
-     (str "\\documentclass[footinclude=false,twocolumn,DIV40,fontsize=6.1pt]{scrreprt}\n"
-          latex-header-except-documentclass))
+  (str "\\documentclass[footinclude=false,twocolumn,DIV40,fontsize=6.1pt]{scrreprt}\n"
+       latex-header-except-documentclass))
 
 ;; US letter is a little shorter, so formatting gets completely messed
 ;; up unless we use a slightly smaller font size.
 (def latex-usletter-header-before-title
-     (str "\\documentclass[footinclude=false,twocolumn,DIV40,fontsize=5.9pt,letterpaper]{scrreprt}\n"
-          latex-header-except-documentclass))
-
-
+  (str "\\documentclass[footinclude=false,twocolumn,DIV40,fontsize=5.9pt,letterpaper]{scrreprt}\n"
+       latex-header-except-documentclass))
 
 (def html-header-before-title "<!doctype html>
 <html lang=\"en\">
@@ -185,7 +216,7 @@
 (defn inline-css [& {:keys [js?]}]
   (let [css (slurp (io/resource "inline.css"))]
     (if js?
-      (str/replace css  #"\n" "\\\\n")
+      (str/replace css #"\n" "\\\\n")
       css)))
 
 (def html-header-after-title (format "
@@ -266,12 +297,10 @@
   <div class=\"wiki wikiPage\" id=\"content_view\">
 " (inline-css)))
 
-
 (def html-footer "  </div>
 </body>
 </html>
 ")
-
 
 (def embeddable-html-fragment-header-before-title "")
 (def embeddable-html-fragment-header-after-title (format "
@@ -283,12 +312,10 @@ document.write('<style type=\"text/css\">%s<\\/style>')
 " (inline-css :js? true)))
 (def embeddable-html-fragment-footer "")
 
-
 (defmacro verify [cond]
   `(when (not ~cond)
      (iprintf "%s\n" (str "verify of this condition failed: " '~cond))
      (throw (Exception.))))
-
 
 (defn wrap-line
   "Given a string 'line' that is assumed not to contain line separators,
@@ -312,7 +339,7 @@ document.write('<style type=\"text/css\">%s<\\/style>')
         (if (zero? len)
           ;; Special case for first word of first line.  Keep it as
           ;; is, including any leading whitespace it may have.
-          (recur finished-lines [ word ] (count word) (rest remaining-words))
+          (recur finished-lines [word] (count word) (rest remaining-words))
           (let [word-len (count word)
                 len-if-append (+ len word-len)]
             (if (<= len-if-append width)
@@ -323,13 +350,12 @@ document.write('<style type=\"text/css\">%s<\\/style>')
               ;; which will be the first word of the next line.
               (let [trimmed-word (str/triml word)]
                 (recur (conj finished-lines (apply str partial-line))
-                       [ trimmed-word ]
+                       [trimmed-word]
                        (count trimmed-word)
                        (rest remaining-words))))))
         (if (zero? len)
-          [ "" ]
+          [""]
           (conj finished-lines (apply str partial-line)))))))
-
 
 (defn output-title [fmt t]
   (let [t (if (map? t)
@@ -340,13 +366,11 @@ document.write('<style type=\"text/css\">%s<\\/style>')
                     :html (format "  <title>%s</title>\n" t)
                     :verify-only ""))))
 
-
 (defn htmlize-str [s]
   (str/escape s {\" "&quot;"
                  \& "&amp;"
                  \< "&lt;"
                  \> "&gt;"}))
-
 
 ;; Handle a thing that could be a string, symbol, or a 'conditional
 ;; string'
@@ -363,9 +387,7 @@ document.write('<style type=\"text/css\">%s<\\/style>')
                 (iprintf "%s\n" (str "cond-str: cstr=" cstr " is not a string, symbol, or map"))
                 (verify (or (string? cstr) (symbol? cstr) (map? cstr))))))
 
-
 (def symbols-looked-up (atom #{}))
-
 
 (defn url-for-cmd-doc [opts cmd-str]
   (when (:warn-about-unknown-symbols opts)
@@ -377,7 +399,6 @@ document.write('<style type=\"text/css\">%s<\\/style>')
         (iprintf *err* "No URL known for symbol with name: '%s'\n" cmd-str))
       nil)))
 
-
 (defn escape-latex-hyperref-url [url]
   (-> url
       (str/replace "#" "\\#")
@@ -387,7 +408,6 @@ document.write('<style type=\"text/css\">%s<\\/style>')
       (str/replace ">" "\\%3E")
       (str/replace "&" "\\&")))
 
-
 (defn escape-latex-hyperref-target [target]
   (-> target
       ;; -> doesn't seem to have a problem in LaTeX, but ->> looks
@@ -395,7 +415,6 @@ document.write('<style type=\"text/css\">%s<\\/style>')
       ;; combined, not two separate characters.
       (str/replace "->>" "-{>}{>}")
       (str/replace "&" "\\&")))
-
 
 ;; Only remove the namespaces that are very commonly used in the
 ;; cheatsheet.  For the ones that only have one or a few symbol there,
@@ -424,15 +443,13 @@ document.write('<style type=\"text/css\">%s<\\/style>')
    "clojure.zip/"
    "flatland.ordered.map/"
    "flatland.ordered.set/"
-   "flatland.useful.map/"
-   ])
+   "flatland.useful.map/"])
 
 (defn remove-common-ns-prefix [s]
   (if-let [pre (first (filter #(str/starts-with? s %)
                               +common-namespaces-to-remove-from-shown-symbols+))]
     (subs s (count pre))
     s))
-
 
 (defn cleanup-doc-str-tooltip
   "Get rid of the first line of the doc string, which is always a line
@@ -451,10 +468,8 @@ characters (\") with &quot;"
           (str/trim-newline (str/join "\n" lines)))]
     (htmlize-str combined-lines)))
 
-
 (defn doc-for-symbol-str [_s]
   nil)
-
 
 (defn count-examples [sym-info]
   (count (:examples sym-info)))
@@ -509,7 +524,6 @@ characters (\") with &quot;"
                                 72))
            ""))))
 
-
 (defn table-one-cmd-to-str [fmt cmd prefix suffix]
   (let [cmd-str (cond-str fmt cmd)
         whole-cmd (str prefix cmd-str suffix)
@@ -559,7 +573,6 @@ characters (\") with &quot;"
         :verify-only "")
       cmd-str-to-show)))
 
-
 ;; When expand? is true, we expand prefixes and suffixes.
 ;; Disadvantage: longer output, which is especially bad for the PDF
 ;; cheatsheet.  Advantage: can search for the complete names of the
@@ -580,7 +593,7 @@ characters (\") with &quot;"
                                    ["" " " ""]
                                    (case (:fmt fmt)
                                      :latex ["\\{" ", " "\\}"]
-                                     :html  [  "{" ", "   "}"]
+                                     :html ["{" ", " "}"]
                                      :verify-only ["" "" ""]))
           pre-str (if pre (cond-str fmt pre) "")
           suff-str (if suff (cond-str fmt suff) "")
@@ -607,7 +620,6 @@ characters (\") with &quot;"
     ;; handle the one thing, with no prefix or suffix
     (table-one-cmd-to-str fmt cmds "" "")))
 
-
 (defn output-table-cmd-list [fmt k cmds]
   (if (= k :str)
     (iprintf "%s" (cond-str fmt cmds))
@@ -624,7 +636,6 @@ characters (\") with &quot;"
                       :latex "}"
                       :html "</code>"
                       :verify-only "")))))
-
 
 (defn output-table-row [fmt row row-num nrows]
   (verify (not= nil (#{:cmds :str} (second row))))
@@ -645,7 +656,6 @@ characters (\") with &quot;"
               </tr>\n"
                     :verify-only ""))))
 
-
 (defn output-table [fmt tbl]
   (iprintf "%s" (case (:fmt fmt)
                   :latex "\\begin{tabularx}{\\hsize}{lX}\n"
@@ -664,7 +674,6 @@ characters (\") with &quot;"
 "
                   :verify-only "")))
 
-
 (defn output-cmds-one-line [fmt tbl]
   (iprintf "%s" (case (:fmt fmt)
                   :latex ""
@@ -678,15 +687,14 @@ characters (\") with &quot;"
           </div>\n"
                   :verify-only "")))
 
-
 (defn output-box [fmt box]
   (verify (even? (count box)))
   (verify (= :box (first box)))
   (let [box-color (if (:colors fmt)
                     (case (:colors fmt)
-                          :color (second box)
-                          :grey "grey"
-                          :bw "white")
+                      :color (second box)
+                      :grey "grey"
+                      :bw "white")
                     nil)
         key-val-pairs (partition 2 (nnext box))]
     (iprintf "%s" (case (:fmt fmt)
@@ -695,23 +703,22 @@ characters (\") with &quot;"
                     :verify-only ""))
     (doseq [[k v] key-val-pairs]
       (case k
-            :section
-            (case (:fmt fmt)
-                  :latex (iprintf "\\section{%s}\n" (cond-str fmt v))
-                  :html (iprintf "          <h2>%s</h2>\n" (cond-str fmt v)))
-            :subsection
-            (case (:fmt fmt)
-                  :latex (iprintf "\\subsection{%s}\n" (cond-str fmt v))
-                  :html (iprintf "          <h3>%s</h3>\n" (cond-str fmt v)))
-            :table
-            (output-table fmt v)
-            :cmds-one-line
-            (output-cmds-one-line fmt v)))
+        :section
+        (case (:fmt fmt)
+          :latex (iprintf "\\section{%s}\n" (cond-str fmt v))
+          :html (iprintf "          <h2>%s</h2>\n" (cond-str fmt v)))
+        :subsection
+        (case (:fmt fmt)
+          :latex (iprintf "\\subsection{%s}\n" (cond-str fmt v))
+          :html (iprintf "          <h3>%s</h3>\n" (cond-str fmt v)))
+        :table
+        (output-table fmt v)
+        :cmds-one-line
+        (output-cmds-one-line fmt v)))
     (iprintf "%s" (case (:fmt fmt)
                     :latex "}\n\n"
                     :html "        </div><!-- /section -->\n"
                     :verify-only ""))))
-
 
 (defn output-col [fmt col]
   (iprintf "%s" (case (:fmt fmt)
@@ -725,7 +732,6 @@ characters (\") with &quot;"
                   :latex "\n\n"
                   :html "      </div><!-- /column -->\n"
                   :verify-only "")))
-
 
 (defn output-page [fmt pg]
   (verify (= (first pg) :column))
@@ -743,7 +749,6 @@ characters (\") with &quot;"
                   :latex ""
                   :html "    </div><!-- /page -->\n"
                   :verify-only "")))
-
 
 (defn output-cheatsheet [fmt cs]
   (verify (even? (count cs)))
@@ -776,7 +781,6 @@ characters (\") with &quot;"
                   :embeddable-html embeddable-html-fragment-footer
                   :verify-only "")))
 
-
 (defn print-warnings [wrtr symbol-name-to-url symbols-looked-up]
   (let [never-used (set/difference (set (keys symbol-name-to-url))
                                    symbols-looked-up)]
@@ -785,7 +789,6 @@ characters (\") with &quot;"
     (iprintf wrtr "\n\n%d symbols in URL table never used:\n\n"
              (count never-used))
     (iprintf wrtr "%s\n" (str/join "\n" (sort (seq never-used))))))
-
 
 (defn parse-args [args]
   (let [supported-link-targets #{"nolinks" "links-to-datomic"}
@@ -799,7 +802,6 @@ characters (\") with &quot;"
                                     (str/join " " (seq supported-link-targets))))))]
     {:link-target-site link-target-site
      :tooltips :no-tooltips}))
-
 
 (defn -main [& args]
   (let [opts (parse-args args)
@@ -819,7 +821,7 @@ characters (\") with &quot;"
                                                        :structure local-cheatsheet-structure
                                                        :cheatsheet-type :local}]]
       (let [symbol-name-to-url (into {} (symbol-url-pairs (:link-target-site opts)
-                                                           cheatsheet-type))
+                                                          cheatsheet-type))
             opts+ (merge base-opts {:symbol-name-to-url symbol-name-to-url})]
         (binding [*out* (io/writer (str "cheatsheet-" name "-full.html"))
                   *err* (io/writer (str "cheatsheet-" name "-warnings.log"))]
