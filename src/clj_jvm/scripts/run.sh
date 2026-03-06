@@ -28,21 +28,25 @@ fi
 
 if [ ${PRODUCE_PDF} == "yes" ]
 then
-    for NAME in peer client async local
-    do
-        for PAPER in a4 usletter
+    if ! command -v latex &>/dev/null; then
+        echo "WARNING: latex not found; skipping PDF generation."
+    else
+        for NAME in peer client async local
         do
-            for COLOR in color grey bw
+            for PAPER in a4 usletter
             do
-                BASENAME="cheatsheet-${NAME}-${PAPER}-${COLOR}"
-                if [ -f "${BASENAME}.tex" ]
-                then
-                    latex ${BASENAME}
-                    dvipdfm ${BASENAME}
-                    /bin/rm -f ${BASENAME}.aux ${BASENAME}.dvi ${BASENAME}.log ${BASENAME}.out
-                fi
+                for COLOR in color grey bw
+                do
+                    BASENAME="cheatsheet-${NAME}-${PAPER}-${COLOR}"
+                    if [ -f "${BASENAME}.tex" ]
+                    then
+                        latex ${BASENAME}
+                        dvipdfm ${BASENAME}
+                        /bin/rm -f ${BASENAME}.aux ${BASENAME}.dvi ${BASENAME}.log ${BASENAME}.out
+                    fi
+                done
             done
         done
-    done
-    /bin/mv -f *.pdf ../../pdf/ 2>/dev/null || true
+        /bin/mv -f *.pdf ../../pdf/ 2>/dev/null || true
+    fi
 fi

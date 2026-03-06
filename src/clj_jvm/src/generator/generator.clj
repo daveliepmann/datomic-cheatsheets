@@ -21,83 +21,102 @@
            :latex "Datomic Peer API Cheat Sheet (\\texttt{datomic.api})"}
    :page
    [:column
-    [:box "green"
-     :section "Connection"
+    [:box "green2"
+     :section {:html "Connection &amp; Database" :latex "Connection \\& Database"}
+     :subsection "Setup"
      :table [["connect" :cmds '[datomic.api/connect]]
-             ["create" :cmds '[datomic.api/create-database datomic.api/delete-database]]
-             ["rename" :cmds '[datomic.api/rename-database]]
-             ["list" :cmds '[datomic.api/get-database-names]]
-             ["shutdown" :cmds '[datomic.api/shutdown]]]]
-    [:box "green"
-     :section "Database Value"
-     :table [["current" :cmds '[datomic.api/db]]
-             ["as-of" :cmds '[datomic.api/as-of datomic.api/as-of-t]]
-             ["since" :cmds '[datomic.api/since datomic.api/since-t]]
+             ["release" :cmds '[datomic.api/release]]
+             ["shutdown" :cmds '[datomic.api/shutdown]]
+             ["create-db" :cmds '[datomic.api/create-database]]
+             ["delete-db" :cmds '[datomic.api/delete-database]]
+             ["rename-db" :cmds '[datomic.api/rename-database]]
+             ["list-dbs" :cmds '[datomic.api/get-database-names]]]
+     :subsection "Database Value"
+     :table [["db" :cmds '[datomic.api/db]]
+             ["as-of" :cmds '[datomic.api/as-of]]
+             ["since" :cmds '[datomic.api/since]]
              ["history" :cmds '[datomic.api/history]]
-             ["filter" :cmds '[datomic.api/filter datomic.api/is-filtered]]
-             ["basis" :cmds '[datomic.api/basis-t datomic.api/next-t]]
-             ["stats" :cmds '[datomic.api/db-stats]]]]
+             ["filter" :cmds '[datomic.api/filter]]
+             ["is-filtered" :cmds '[datomic.api/is-filtered]]
+             ["basis-t" :cmds '[datomic.api/basis-t]]
+             ["as-of-t" :cmds '[datomic.api/as-of-t]]
+             ["since-t" :cmds '[datomic.api/since-t]]
+             ["next-t" :cmds '[datomic.api/next-t]]
+             ["db-stats" :cmds '[datomic.api/db-stats]]]]
     [:box "blue"
      :section "Transactions"
      :subsection "Submit"
-     :table [["sync" :cmds '[datomic.api/transact]]
-             ["async" :cmds '[datomic.api/transact-async]]
-             ["future" :cmds '[datomic.api/add-listener datomic.api/release datomic.api/cancel]]]
+     :table [["transact" :cmds '[datomic.api/transact]]
+             ["transact-async" :cmds '[datomic.api/transact-async]]]
      :subsection "Speculative"
-     :table [["" :cmds '[datomic.api/with]]]
+     :table [["with" :cmds '[datomic.api/with]]]
      :subsection "Temp IDs"
-     :table [["create" :cmds '[datomic.api/tempid]]
-             ["resolve" :cmds '[datomic.api/resolve-tempid]]]
-     :subsection "Time Conversion"
-     :table [["" :cmds '[datomic.api/t->tx datomic.api/tx->t]]]]
+     :table [["tempid" :cmds '[datomic.api/tempid]]
+             ["resolve-tempid" :cmds '[datomic.api/resolve-tempid]]]
+     :subsection "Time"
+     :table [["t->tx" :cmds '[datomic.api/t->tx]]
+             ["tx->t" :cmds '[datomic.api/tx->t]]]]
     :column
     [:box "orange"
      :section "Querying"
      :subsection "Datalog"
-     :table [["" :cmds '[datomic.api/q datomic.api/qseq datomic.api/query]]]
+     :table [["q" :cmds '[datomic.api/q]]
+             ["qseq" :cmds '[datomic.api/qseq]]
+             ["query" :cmds '[datomic.api/query]]]
      :subsection "Pull"
-     :table [["" :cmds '[datomic.api/pull datomic.api/pull-many]]]
+     :table [["pull" :cmds '[datomic.api/pull]]
+             ["pull-many" :cmds '[datomic.api/pull-many]]]
      :subsection "Raw Index"
-     :table [["" :cmds '[datomic.api/datoms datomic.api/seek-datoms]]
-             ["" :cmds '[datomic.api/index-range datomic.api/index-pull]]]]
+     :table [["datoms" :cmds '[datomic.api/datoms]]
+             ["seek-datoms" :cmds '[datomic.api/seek-datoms]]
+             ["index-range" :cmds '[datomic.api/index-range]]
+             ["index-pull" :cmds '[datomic.api/index-pull]]]]
     [:box "yellow"
      :section "Entity Operations"
      :subsection "Entity"
-     :table [["" :cmds '[datomic.api/entity datomic.api/entity-db datomic.api/touch]]]
+     :table [["entity" :cmds '[datomic.api/entity]]
+             ["entity-db" :cmds '[datomic.api/entity-db]]
+             ["touch" :cmds '[datomic.api/touch]]]
      :subsection "Identity"
-     :table [["eid->kw" :cmds '[datomic.api/ident]]
-             ["kw->eid" :cmds '[datomic.api/entid datomic.api/entid-at]]
-             ["partition" :cmds '[datomic.api/part datomic.api/implicit-part
-                                  datomic.api/implicit-part-id]]]]
+     :table [["entid" :cmds '[datomic.api/entid]]
+             ["entid-at" :cmds '[datomic.api/entid-at]]
+             ["ident" :cmds '[datomic.api/ident]]
+             ["part" :cmds '[datomic.api/part]]
+             ["implicit-part" :cmds '[datomic.api/implicit-part]]
+             ["implicit-part-id" :cmds '[datomic.api/implicit-part-id]]]]
     [:box "purple"
      :section "Transaction Log"
-     :table [["" :cmds '[datomic.api/log datomic.api/tx-range]]]]]
+     :table [["log" :cmds '[datomic.api/log]]
+             ["tx-range" :cmds '[datomic.api/tx-range]]]]]
    :page
    [:column
     [:box "green2"
-     :section "Schema & Functions"
+     :section {:html "Schema &amp; Functions" :latex "Schema \\& Functions"}
      :subsection "Schema"
-     :table [["" :cmds '[datomic.api/attribute]]]
-     :subsection "Database Functions"
-     :table [["create" :cmds '[datomic.api/function]]
+     :table [["attribute" :cmds '[datomic.api/attribute]]]
+     :subsection "Functions"
+     :table [["function" :cmds '[datomic.api/function]]
              ["invoke" :cmds '[datomic.api/invoke]]]
      :subsection "UUIDs"
-     :table [["create" :cmds '[datomic.api/squuid]]
-             ["timestamp" :cmds '[datomic.api/squuid-time-millis]]]]
+     :table [["squuid" :cmds '[datomic.api/squuid]]
+             ["squuid-time-millis" :cmds '[datomic.api/squuid-time-millis]]]]
     [:box "grey"
-     :section "Sync & Coordination"
+     :section {:html "Sync &amp; Coordination" :latex "Sync \\& Coordination"}
      :subsection "Sync"
-     :table [["basis" :cmds '[datomic.api/sync]]
-             ["schema" :cmds '[datomic.api/sync-schema]]
-             ["index" :cmds '[datomic.api/sync-index]]
-             ["excise" :cmds '[datomic.api/sync-excise]]]
+     :table [["sync" :cmds '[datomic.api/sync]]
+             ["sync-schema" :cmds '[datomic.api/sync-schema]]
+             ["sync-index" :cmds '[datomic.api/sync-index]]
+             ["sync-excise" :cmds '[datomic.api/sync-excise]]]
      :subsection "Maintenance"
-     :table [["" :cmds '[datomic.api/request-index datomic.api/gc-storage]]]
+     :table [["request-index" :cmds '[datomic.api/request-index]]
+             ["gc-storage" :cmds '[datomic.api/gc-storage]]]
      :subsection "Notifications"
-     :table [["get" :cmds '[datomic.api/tx-report-queue]]
-             ["remove" :cmds '[datomic.api/remove-tx-report-queue]]]
+     :table [["tx-report-queue" :cmds '[datomic.api/tx-report-queue]]
+             ["remove-tx-report-queue" :cmds '[datomic.api/remove-tx-report-queue]]
+             ["add-listener" :cmds '[datomic.api/add-listener]]]
      :subsection "Admin"
-     :table [["" :cmds '[datomic.api/administer-system]]]]
+     :table [["cancel" :cmds '[datomic.api/cancel]]
+             ["administer-system" :cmds '[datomic.api/administer-system]]]]
     :column]])
 
 (def client-cheatsheet-structure
@@ -106,7 +125,7 @@
    :page
    [:column
     [:box "green"
-     :section "Client & Connection"
+     :section {:html "Client &amp; Connection" :latex "Client \\& Connection"}
      :subsection "Client"
      :table [["" :cmds '[datomic.client.api/client]]]
      :subsection "Databases"
@@ -151,7 +170,7 @@
    :page
    [:column
     [:box "green"
-     :section "Client & Connection"
+     :section {:html "Client &amp; Connection" :latex "Client \\& Connection"}
      :subsection "Client"
      :table [["" :cmds '[datomic.client.api.async/client]]]
      :subsection "Databases"
