@@ -18,7 +18,8 @@
 ;; Stub cheatsheet structures — content added in Steps 3-5
 (def peer-cheatsheet-structure
   [:title {:html "Datomic Peer API Cheat Sheet"
-           :latex "Datomic Peer API Cheat Sheet (\\texttt{datomic.api})"}
+           :latex "Datomic Peer API Cheat Sheet (\\texttt{datomic.api})"
+           :namespace "datomic.api"}
    :page
    [:column
     [:box "green2"
@@ -121,7 +122,8 @@
 
 (def client-cheatsheet-structure
   [:title {:html "Datomic Client API Cheat Sheet"
-           :latex "Datomic Client API Cheat Sheet (\\texttt{datomic.client.api})"}
+           :latex "Datomic Client API Cheat Sheet (\\texttt{datomic.client.api})"
+           :namespace "datomic.client.api"}
    :page
    [:column
     [:box "green"
@@ -166,7 +168,8 @@
 
 (def async-cheatsheet-structure
   [:title {:html "Datomic Async Client API Cheat Sheet"
-           :latex "Datomic Async Client API Cheat Sheet (\\texttt{datomic.client.api.async})"}
+           :latex "Datomic Async Client API Cheat Sheet (\\texttt{datomic.client.api.async})"
+           :namespace "datomic.client.api.async"}
    :page
    [:column
     [:box "green"
@@ -211,7 +214,8 @@
 
 (def local-cheatsheet-structure
   [:title {:html "Datomic Local &amp; Monitoring Reference"
-           :latex "Datomic Local \\& Monitoring Reference"}
+           :latex "Datomic Local \\& Monitoring Reference"
+           :namespace "datomic.local"}
    :page
    [:column
     [:box "green2"
@@ -494,9 +498,11 @@
 </head>
 
 <body id=\"cheatsheet\">
-  <nav class=\"search\"><input type='text' id='search' placeholder='Type to search...' autofocus='autofocus'></nav>
-  <div class=\"wiki wikiPage\" id=\"content_view\">
 " (inline-css)))
+
+(def html-nav-and-content-open "  <nav class=\"search\"><input type='text' id='search' placeholder='Type to search...' autofocus='autofocus'></nav>
+  <div class=\"wiki wikiPage\" id=\"content_view\">
+")
 
 (def html-footer "  </div>
 </body>
@@ -954,6 +960,16 @@ characters (\") with &quot;"
                     :html html-header-after-title
                     :embeddable-html embeddable-html-fragment-header-after-title
                     :verify-only ""))
+    (when (and show-title (= (:fmt fmt) :html) (map? title))
+      (let [html-title (:html title)
+            ns-str (:namespace title)]
+        (iprintf "<div id=\"cheatsheet-header\">\n")
+        (iprintf "  <h1>%s</h1>\n" html-title)
+        (when ns-str
+          (iprintf "  <span class=\"namespace\"><code>%s</code></span>\n" ns-str))
+        (iprintf "</div>\n")))
+    (when (= (:fmt fmt) :html)
+      (iprintf "%s" html-nav-and-content-open))
     (doseq [[k pg] (partition 2 pages)]
       (verify (= k :page))
       (output-page fmt-passed-down pg)))
