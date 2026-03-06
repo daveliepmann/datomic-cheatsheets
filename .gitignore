@@ -2,4 +2,10 @@ src/*.aux
 src/*.log
 src/*.pdf
 src/*.gz
-
+.clj-kondo/.cache/
+.lsp/.cache/
+src/clj_jvm/.cpcache/
+src/clj_jvm/cheatsheet-*.html
+src/clj_jvm/cheatsheet-*.tex
+src/clj_jvm/cheatsheet-*.log
+pdf/
