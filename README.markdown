@@ -7,6 +7,11 @@ Based on https://github.com/clojure/clojure-cheatsheets
 TODO See [https://jafingerhut.github.io](https://jafingerhut.github.io) for
 several variants of the HTML cheatsheet for Clojure on the JVM.
 
+# Usage
+
+See *src/clj_jvm/README.markdown*
+
+
 ## License
 
 Copyright (C) 2012-2022 Michael Fogus, Andy Fingerhut
