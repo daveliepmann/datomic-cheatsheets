@@ -24,67 +24,37 @@
    [:column
     [:box "green2"
      :section {:html "Connection &amp; Database" :latex "Connection \\& Database"}
-     :subsection "Setup"
-     :table [["connect" :cmds '[datomic.api/connect]]
-             ["release" :cmds '[datomic.api/release]]
-             ["shutdown" :cmds '[datomic.api/shutdown]]
-             ["create-db" :cmds '[datomic.api/create-database]]
-             ["delete-db" :cmds '[datomic.api/delete-database]]
-             ["rename-db" :cmds '[datomic.api/rename-database]]
-             ["list-dbs" :cmds '[datomic.api/get-database-names]]]
-     :subsection "Database Value"
-     :table [["db" :cmds '[datomic.api/db]]
-             ["filter" :cmds '[datomic.api/filter]]
-             ["is-filtered" :cmds '[datomic.api/is-filtered]]
-             ["basis-t" :cmds '[datomic.api/basis-t]]
-             ["as-of-t" :cmds '[datomic.api/as-of-t]]
-             ["since-t" :cmds '[datomic.api/since-t]]
-             ["next-t" :cmds '[datomic.api/next-t]]
-             ["db-stats" :cmds '[datomic.api/db-stats]]]
+     :table [["Setup" :cmds '[datomic.api/connect datomic.api/create-database]]
+             ["Teardown" :cmds '[datomic.api/release datomic.api/shutdown]]
+             ["Database management" :cmds '[datomic.api/delete-database datomic.api/rename-database
+                                            datomic.api/get-database-names datomic.api/db-stats]]]
+     :subsection "Databases"
+     :table [["Values" :cmds '[datomic.api/db]]
+             ["Of an entity" :cmds '[datomic.api/entity-db]]
+             ["Filtered value" :cmds '[datomic.api/filter datomic.api/is-filtered]]
+             ["T values" :cmds '[datomic.api/basis-t datomic.api/as-of-t datomic.api/since-t datomic.api/next-t]]]
      :subsection "Temporal Queries"
-     :table [["filters" :cmds '[datomic.api/as-of datomic.api/since]]
+     :table [["point-in-time filters" :cmds '[datomic.api/as-of datomic.api/since]]
              ["unfiltered present + past" :cmds '[datomic.api/history]]]]
     [:box "blue"
-     :section "Transactions"
-     :subsection "Submit"
-     :table [["transact" :cmds '[datomic.api/transact]]
-             ["transact-async" :cmds '[datomic.api/transact-async]]]
-     :subsection "Speculative"
-     :table [["with" :cmds '[datomic.api/with]]]
-     :subsection "Temp IDs"
-     :table [["tempid" :cmds '[datomic.api/tempid]]
-             ["resolve-tempid" :cmds '[datomic.api/resolve-tempid]]]
-     :subsection "Time"
-     :table [["t->tx" :cmds '[datomic.api/t->tx]]
-             ["tx->t" :cmds '[datomic.api/tx->t]]]]
+     :section "Write"
+     :table [["Submit" :cmds '[datomic.api/transact datomic.api/transact-async]]
+             ["Speculative" :cmds '[datomic.api/with]]
+             ["Temp IDs" :cmds '[datomic.api/tempid datomic.api/resolve-tempid]]
+             ["Time/Transaction" :cmds '[datomic.api/t->tx datomic.api/tx->t]]
+             ["Transaction log" :cmds '[datomic.api/log datomic.api/tx-range]]]]
     :column
     [:box "orange"
-     :section "Querying"
-     :subsection "Datalog"
-     :table [["q" :cmds '[datomic.api/q]]
-             ["qseq" :cmds '[datomic.api/qseq]]
-             ["query" :cmds '[datomic.api/query]]]
-     :subsection "Pull"
-     :table [["pull" :cmds '[datomic.api/pull]]
-             ["pull-many" :cmds '[datomic.api/pull-many]]]
-     :subsection "Index APIs"
-     :table [["Raw" :cmds '[datomic.api/datoms datomic.api/seek-datoms]]
-             ["Range" :cmds '[datomic.api/index-range]]
-             ["Walk" :cmds '[datomic.api/index-pull]]]]
-    [:box "yellow"
-     :section "Entity Operations"
+     :section "Read"
+     :table [["Datalog query" :cmds '[datomic.api/q datomic.api/qseq datomic.api/query]]
+             ["Hierarchical entity selection" :cmds '[datomic.api/pull datomic.api/pull-many]]
+             ["By index" :cmds '[datomic.api/datoms datomic.api/seek-datoms
+                                 datomic.api/index-range datomic.api/index-pull]]]
+     :subsection "Entity Operations"
      :table [["Entity API" :cmds '[datomic.api/entity datomic.api/touch]]
-             ["entity-db" :cmds '[datomic.api/entity-db]]
-             ["entid" :cmds '[datomic.api/entid]]
-             ["entid-at" :cmds '[datomic.api/entid-at]]
+             ["Entity IDs" :cmds '[datomic.api/entid datomic.api/entid-at]]
              ["ident" :cmds '[datomic.api/ident]]
-             ["part" :cmds '[datomic.api/part]]
-             ["implicit-part" :cmds '[datomic.api/implicit-part]]
-             ["implicit-part-id" :cmds '[datomic.api/implicit-part-id]]]]
-    [:box "purple"
-     :section "Transaction Log"
-     :table [["log" :cmds '[datomic.api/log]]
-             ["tx-range" :cmds '[datomic.api/tx-range]]]]]
+             ["Partitions" :cmds '[datomic.api/part datomic.api/implicit-part datomic.api/implicit-part-id]]]]]
    :page
    [:column
     [:box "green2"
