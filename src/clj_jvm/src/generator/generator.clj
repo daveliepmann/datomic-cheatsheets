@@ -34,16 +34,16 @@
              ["list-dbs" :cmds '[datomic.api/get-database-names]]]
      :subsection "Database Value"
      :table [["db" :cmds '[datomic.api/db]]
-             ["as-of" :cmds '[datomic.api/as-of]]
-             ["since" :cmds '[datomic.api/since]]
-             ["history" :cmds '[datomic.api/history]]
              ["filter" :cmds '[datomic.api/filter]]
              ["is-filtered" :cmds '[datomic.api/is-filtered]]
              ["basis-t" :cmds '[datomic.api/basis-t]]
              ["as-of-t" :cmds '[datomic.api/as-of-t]]
              ["since-t" :cmds '[datomic.api/since-t]]
              ["next-t" :cmds '[datomic.api/next-t]]
-             ["db-stats" :cmds '[datomic.api/db-stats]]]]
+             ["db-stats" :cmds '[datomic.api/db-stats]]]
+     :subsection "Temporal Queries"
+     :table [["filters" :cmds '[datomic.api/as-of datomic.api/since]]
+             ["unfiltered present + past" :cmds '[datomic.api/history]]]]
     [:box "blue"
      :section "Transactions"
      :subsection "Submit"
@@ -67,19 +67,15 @@
      :subsection "Pull"
      :table [["pull" :cmds '[datomic.api/pull]]
              ["pull-many" :cmds '[datomic.api/pull-many]]]
-     :subsection "Raw Index"
-     :table [["datoms" :cmds '[datomic.api/datoms]]
-             ["seek-datoms" :cmds '[datomic.api/seek-datoms]]
-             ["index-range" :cmds '[datomic.api/index-range]]
-             ["index-pull" :cmds '[datomic.api/index-pull]]]]
+     :subsection "Index APIs"
+     :table [["Raw" :cmds '[datomic.api/datoms datomic.api/seek-datoms]]
+             ["Range" :cmds '[datomic.api/index-range]]
+             ["Walk" :cmds '[datomic.api/index-pull]]]]
     [:box "yellow"
      :section "Entity Operations"
-     :subsection "Entity"
-     :table [["entity" :cmds '[datomic.api/entity]]
+     :table [["Entity API" :cmds '[datomic.api/entity datomic.api/touch]]
              ["entity-db" :cmds '[datomic.api/entity-db]]
-             ["touch" :cmds '[datomic.api/touch]]]
-     :subsection "Identity"
-     :table [["entid" :cmds '[datomic.api/entid]]
+             ["entid" :cmds '[datomic.api/entid]]
              ["entid-at" :cmds '[datomic.api/entid-at]]
              ["ident" :cmds '[datomic.api/ident]]
              ["part" :cmds '[datomic.api/part]]
@@ -128,44 +124,33 @@
    [:column
     [:box "green"
      :section {:html "Client &amp; Connection" :latex "Client \\& Connection"}
-     :subsection "Client"
-     :table [["" :cmds '[datomic.client.api/client]]]
-     :subsection "Databases"
-     :table [["connect" :cmds '[datomic.client.api/connect]]
-             ["create" :cmds '[datomic.client.api/create-database]]
-             ["delete" :cmds '[datomic.client.api/delete-database]]
-             ["list" :cmds '[datomic.client.api/list-databases]]
-             ["administer-system" :cmds '[datomic.client.api/administer-system]]]]
+     :table [["Setup" :cmds '[datomic.client.api/client datomic.client.api/connect datomic.client.api/create-database]]]
+     :table [["Database management" :cmds '[datomic.client.api/delete-database datomic.client.api/list-databases datomic.client.api/administer-system datomic.client.api/db-stats]]]]
     [:box "green"
-     :section "Database Value"
-     :table [["current" :cmds '[datomic.client.api/db]]
-             ["as-of" :cmds '[datomic.client.api/as-of]]
-             ["since" :cmds '[datomic.client.api/since]]
-             ["history" :cmds '[datomic.client.api/history]]
-             ["with-db" :cmds '[datomic.client.api/with-db]]
-             ["stats" :cmds '[datomic.client.api/db-stats]]
-             ["sync" :cmds '[datomic.client.api/sync]]]]
+     :section "Databases"
+     :table [["Values" :cmds '[datomic.client.api/db datomic.client.api/with-db]]
+
+             ["coordination" :cmds '[datomic.client.api/sync]]]
+     :subsection "Temporal Queries"
+     :table [["point-in-time filters" :cmds '[datomic.client.api/as-of datomic.client.api/since]]
+             ["unfiltered present + past" :cmds '[datomic.client.api/history]]]]
     [:box "blue"
      :section "Transactions"
-     :subsection "Submit"
-     :table [["" :cmds '[datomic.client.api/transact]]]
-     :subsection "Speculative"
-     :table [["" :cmds '[datomic.client.api/with]]]
-     :subsection "Transaction Log"
-     :table [["" :cmds '[datomic.client.api/tx-range]]]]
+     :table [["Submit" :cmds '[datomic.client.api/transact]]
+             ["Speculative" :cmds '[datomic.client.api/with]]
+             ["Transaction log" :cmds '[datomic.client.api/tx-range]]]]
     :column
     [:box "orange"
      :section "Querying"
-     :table [["Datalog" :cmds '[datomic.client.api/q datomic.client.api/qseq]]
-             ["Indexes" :cmds '[datomic.client.api/index-pull datomic.client.api/index-range datomic.client.api/datoms]]
-             ["Pull" :cmds '[datomic.client.api/pull]]]
+     :table [["With datalog" :cmds '[datomic.client.api/q datomic.client.api/qseq]]
+             ["By index" :cmds '[datomic.client.api/index-pull datomic.client.api/index-range datomic.client.api/datoms]]
+             ["Hierarchical entity selection" :cmds '[datomic.client.api/pull]]]]]])
      ;; :subsection "Datalog"
      ;; :table [["" :cmds '[datomic.client.api/q datomic.client.api/qseq]]]
      ;; :subsection "Pull"
      ;; :table [["" :cmds '[datomic.client.api/pull]]]
      ;; :subsection "Indexes"
      ;;:table [["Indexes" :cmds '[datomic.client.api/index-pull datomic.client.api/index-range datomic.client.api/datoms]]]
-     ]]])
 
 (def async-cheatsheet-structure
   [:title {:html "Datomic Async Client API Cheat Sheet"
@@ -187,7 +172,7 @@
      :table [["current" :cmds '[datomic.client.api.async/db]]
              ["as-of" :cmds '[datomic.client.api.async/as-of]]
              ["since" :cmds '[datomic.client.api.async/since]]
-             ["history" :cmds '[datomic.client.api.async/history]]
+             ["unfiltered present + past" :cmds '[datomic.client.api.async/history]]
              ["with-db" :cmds '[datomic.client.api.async/with-db]]
              ["stats" :cmds '[datomic.client.api.async/db-stats]]
              ["sync" :cmds '[datomic.client.api.async/sync]]]]
