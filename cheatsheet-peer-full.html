@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="cheatsheet_files/favicon.ico" type="image/x-icon">
+  <title>Datomic Peer API Cheat Sheet</title>
+
+  <link rel="stylesheet" href="cheatsheet_files/style.css" type="text/css" />
+  <style type="text/css">
+  code {
+	font-family: monospace;
+}
+
+.page {
+	page-break-after: always;
+	page-break-inside: avoid;
+}
+
+.column {
+	float: left;
+	padding: 0;
+	margin: 0;
+	width: 50%;
+}
+
+.column:first-child {
+	clear: both;
+}
+
+.header {
+	text-align: center;
+}
+
+.header h2 {
+	font-style: italic;
+}
+
+h1 {
+	font-size: 1.8em;
+}
+
+h2 {
+	font-size: 1.4em;
+}
+
+h3 {
+	font-size: 1.2em;
+}
+
+.section {
+	background-color: #ebebeb;
+	margin: 0.5em;
+	padding: 0 0.5em 0.5em;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+td, .single_row {
+	vertical-align: top;
+	padding: 0 0.5em;
+}
+
+tr.odd, .single_row {
+	background-color: #f5f5f5;
+}
+
+tr.even {
+	background-color: #fafafa;
+}
+
+.footer {
+	float: right;
+	text-align: right;
+	border-top: 1px solid gray;
+}
+
+#foot {
+	clear: both;
+}
+
+  </style>
+  <link href="cheatsheet_files/tipTip.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="cheatsheet_files/jquery.js"></script>
+  <script src="cheatsheet_files/jquery.tipTip.js"></script>
+  <script>
+  $(function(){
+      $(".tooltip").tipTip();
+  });
+
+  escape_re=function(s) {
+    return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+  };
+  $(function(){
+    var $links = $('a');
+    $(window).on('keyup', function(e) {
+      if (e.keyCode == 27) {
+        $('#search').focus();
+      }
+    });
+    $('#search').keydown(function(e) {
+      var val = $(this).val();
+      if (!val && e.key && (e.key == "'" || e.key == "/")) {
+        this.blur();
+      }
+    });
+    $('#search').keyup(function() {
+       var val = $(this).val(),
+       strs = $.trim(val).split(/\s+/);
+       strs = $.map(strs,escape_re);
+       regstr = '^.*' + strs.join('.*') + '.*$',
+       reg = RegExp(regstr, 'i');
+       console.log(val, reg);
+
+       var matched = $links.filter(function() {
+          var text = $(this).text().replace(/\s+/g, ' ');
+          if ($.trim(val)) {return reg.test(text)};
+       });
+
+       if (matched.length > 0) {
+        $('table').hide();
+        $('table').prev('h3').hide();
+        $('.section').hide();
+        $('a').removeClass('highlight');
+        $('#search').removeClass('highlight');
+
+        matched.closest('table').prev('h3').show();
+        matched.closest('table').show();
+        matched.closest('.section').show();
+        matched.addClass('highlight');
+       }
+       else {
+        $('table').show();
+        $('table').prev('h3').show();
+        $('.section').show();
+        $('a').removeClass('highlight');
+        if ($.trim(val) == '') {
+         $('#search').removeClass('highlight');
+       }
+       else {
+         $('#search').addClass('highlight');
+       };
+      };
+     });
+     $('#search').keyup();
+  })
+  </script>
+</head>
+
+<body id="cheatsheet">
+<div id="cheatsheet-header">
+  <h1>Datomic Peer API Cheat Sheet</h1>
+  <span class="namespace"><code>datomic.api</code></span>
+</div>
+  <nav class="search"><input type='text' id='search' placeholder='Type to search...' autofocus='autofocus'></nav>
+  <div class="wiki wikiPage" id="content_view">
+    <div class="page">
+      <div class="column">
+        <div class="section green2">
+          <h2>Connection</h2>
+          <table>
+            <tbody>
+              <tr class="odd">
+                <td>Setup</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/connect">connect</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/create-database">create-database</a></code></td>
+              </tr>
+              <tr class="even">
+                <td>Teardown</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/release">release</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/shutdown">shutdown</a></code></td>
+              </tr>
+              <tr class="odd">
+                <td>Database management</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/delete-database">delete-database</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/rename-database">rename-database</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/get-database-names">get-database-names</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/db-stats">db-stats</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/cancel">cancel</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/administer-system">administer-system</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/request-index">request-index</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/gc-storage">gc-storage</a></code></td>
+              </tr>
+            </tbody>
+          </table>
+          <h3>Sync</h3>
+          <table>
+            <tbody>
+              <tr class="odd">
+                <td>Coordination</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/sync">sync</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/sync-schema">sync-schema</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/sync-index">sync-index</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/sync-excise">sync-excise</a></code></td>
+              </tr>
+              <tr class="even">
+                <td>T values</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/basis-t">basis-t</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/as-of-t">as-of-t</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/since-t">since-t</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/next-t">next-t</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/t->tx">t-&gt;tx</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/tx->t">tx-&gt;t</a></code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div><!-- /section -->
+        <div class="section green2">
+          <h2>Databases</h2>
+          <table>
+            <tbody>
+              <tr class="odd">
+                <td>Value</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/db">db</a></code></td>
+              </tr>
+              <tr class="even">
+                <td>Of an entity</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/entity-db">entity-db</a></code></td>
+              </tr>
+              <tr class="odd">
+                <td>Filtered value</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/filter">filter</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/is-filtered">is-filtered</a></code></td>
+              </tr>
+            </tbody>
+          </table>
+          <h3>Temporal queries</h3>
+          <table>
+            <tbody>
+              <tr class="odd">
+                <td>point-in-time filters</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/as-of">as-of</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/since">since</a></code></td>
+              </tr>
+              <tr class="even">
+                <td>unfiltered present + past</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/history">history</a></code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div><!-- /section -->
+        <div class="section blue">
+          <h2>Novelty processing</h2>
+          <table>
+            <tbody>
+              <tr class="odd">
+                <td>Submit</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/transact">transact</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/transact-async">transact-async</a></code></td>
+              </tr>
+              <tr class="even">
+                <td>Speculative</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/with">with</a></code></td>
+              </tr>
+              <tr class="odd">
+                <td>Transaction functions</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/function">function</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/invoke">invoke</a></code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div><!-- /section -->
+      </div><!-- /column -->
+      <div class="column">
+        <div class="section orange">
+          <h2>Perception</h2>
+          <h3>Reads</h3>
+          <table>
+            <tbody>
+              <tr class="odd">
+                <td>Datalog query</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/q">q</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/qseq">qseq</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/query">query</a></code></td>
+              </tr>
+              <tr class="even">
+                <td>Hierarchical entity selection</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/pull">pull</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/pull-many">pull-many</a></code></td>
+              </tr>
+              <tr class="odd">
+                <td>By index</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/datoms">datoms</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/seek-datoms">seek-datoms</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/index-range">index-range</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/index-pull">index-pull</a></code></td>
+              </tr>
+            </tbody>
+          </table>
+          <h3>Entity operations</h3>
+          <table>
+            <tbody>
+              <tr class="odd">
+                <td>Entity API</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/entity">entity</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/touch">touch</a></code></td>
+              </tr>
+              <tr class="even">
+                <td>Entity IDs</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/entid">entid</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/entid-at">entid-at</a></code></td>
+              </tr>
+              <tr class="odd">
+                <td>Partitions</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/part">part</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/implicit-part">implicit-part</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/implicit-part-id">implicit-part-id</a></code></td>
+              </tr>
+            </tbody>
+          </table>
+          <h3>Transactions</h3>
+          <table>
+            <tbody>
+              <tr class="odd">
+                <td>Transaction log</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/log">log</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/tx-range">tx-range</a></code></td>
+              </tr>
+              <tr class="even">
+                <td>Report queue </td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/tx-report-queue">tx-report-queue</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/remove-tx-report-queue">remove-tx-report-queue</a></code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div><!-- /section -->
+        <div class="section green2">
+          <h2>Utility</h2>
+          <table>
+            <tbody>
+              <tr class="odd">
+                <td>Temp IDs</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/tempid">tempid</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/resolve-tempid">resolve-tempid</a></code></td>
+              </tr>
+              <tr class="even">
+                <td>Future</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/add-listener">add-listener</a></code></td>
+              </tr>
+              <tr class="odd">
+                <td>SQUUIDs</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/squuid">squuid</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/squuid-time-millis">squuid-time-millis</a></code></td>
+              </tr>
+              <tr class="even">
+                <td>Schema</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/ident">ident</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/attribute">attribute</a></code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div><!-- /section -->
+      </div><!-- /column -->
+    </div><!-- /page -->
+  </div>
+</body>
+</html>
