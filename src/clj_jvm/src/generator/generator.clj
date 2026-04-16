@@ -51,13 +51,15 @@
     :column
     [:box "orange"
      :section "Perception"
-     :subsection "Reads"
+     :subsection "Reads (more primitive at bottom)"
      :table [["Datalog query" :cmds '[datomic.api/q datomic.api/qseq datomic.api/query]]
-             ["Hierarchical entity selection" :cmds '[datomic.api/pull datomic.api/pull-many]]
-             ["By index" :cmds '[datomic.api/datoms datomic.api/seek-datoms
-                                 datomic.api/index-range datomic.api/index-pull]]]
-     :subsection "Entity operations"
-     :table [["Entity API" :cmds '[datomic.api/entity datomic.api/touch]]
+             ["Index seek + projection" :cmds '[datomic.api/index-pull]]
+             ["Entity selection + projection" :cmds '[datomic.api/pull datomic.api/pull-many]]
+             ["Entity API" :cmds '[datomic.api/entity datomic.api/touch]]
+             ["Index APIs" :cmds '[datomic.api/datoms datomic.api/index-range]]
+             ["By index" :cmds '[datomic.api/index-range datomic.api/index-pull]]
+             ["Raw index access" :cmds '[datomic.api/datoms]]
+             ["Unbounded index access" :cmds '[datomic.api/seek-datoms datomic.api/rseek-datoms]]
              ["Entity IDs" :cmds '[datomic.api/entid datomic.api/entid-at]]
              ["Partitions" :cmds '[datomic.api/part datomic.api/implicit-part datomic.api/implicit-part-id]]]
      :subsection "Transactions"
