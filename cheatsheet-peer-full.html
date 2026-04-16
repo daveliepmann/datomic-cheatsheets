@@ -246,7 +246,7 @@ tr.even {
       <div class="column">
         <div class="section orange">
           <h2>Perception</h2>
-          <h3>Reads</h3>
+          <h3>Reads (more primitive at bottom)</h3>
           <table>
             <tbody>
               <tr class="odd">
@@ -254,27 +254,38 @@ tr.even {
                 <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/q">q</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/qseq">qseq</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/query">query</a></code></td>
               </tr>
               <tr class="even">
-                <td>Hierarchical entity selection</td>
+                <td>Index seek + projection</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/index-pull">index-pull</a></code></td>
+              </tr>
+              <tr class="odd">
+                <td>Entity selection + projection</td>
                 <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/pull">pull</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/pull-many">pull-many</a></code></td>
               </tr>
-              <tr class="odd">
-                <td>By index</td>
-                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/datoms">datoms</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/seek-datoms">seek-datoms</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/index-range">index-range</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/index-pull">index-pull</a></code></td>
-              </tr>
-            </tbody>
-          </table>
-          <h3>Entity operations</h3>
-          <table>
-            <tbody>
-              <tr class="odd">
+              <tr class="even">
                 <td>Entity API</td>
                 <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/entity">entity</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/touch">touch</a></code></td>
               </tr>
+              <tr class="odd">
+                <td>Index APIs</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/datoms">datoms</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/index-range">index-range</a></code></td>
+              </tr>
               <tr class="even">
+                <td>By index</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/index-range">index-range</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/index-pull">index-pull</a></code></td>
+              </tr>
+              <tr class="odd">
+                <td>Raw index access</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/datoms">datoms</a></code></td>
+              </tr>
+              <tr class="even">
+                <td>Unbounded index access</td>
+                <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/seek-datoms">seek-datoms</a> rseek-datoms</code></td>
+              </tr>
+              <tr class="odd">
                 <td>Entity IDs</td>
                 <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/entid">entid</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/entid-at">entid-at</a></code></td>
               </tr>
-              <tr class="odd">
+              <tr class="even">
                 <td>Partitions</td>
                 <td><code><a href="https://docs.datomic.com/clojure/index.html#datomic.api/part">part</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/implicit-part">implicit-part</a> <a href="https://docs.datomic.com/clojure/index.html#datomic.api/implicit-part-id">implicit-part-id</a></code></td>
               </tr>
