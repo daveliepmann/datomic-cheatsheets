@@ -438,10 +438,10 @@
 " (inline-css)))
 
 (def html-nav-and-content-open "  <nav class=\"search\"><input type='text' id='search' placeholder='Type to search...' autofocus='autofocus'></nav>
-  <div class=\"wiki wikiPage\" id=\"content_view\">
+  <main class=\"wiki wikiPage\" id=\"content_view\">
 ")
 
-(def html-footer "  </div>
+(def html-footer "  </main>
 </body>
 </html>
 ")
